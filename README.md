@@ -1,8 +1,8 @@
-# BitTorrent
+# Gnutella
 
-BitTorrent is a communication protocol for peer-to-peer file sharing (P2P) which is used to distribute data and electronic files over the Internet in a decentralized manner.
+Gnutella is a communication protocol for peer-to-peer file sharing (P2P) which is used to distribute data and electronic files over the Internet in a decentralized manner.
 <br>
-In this project we implement one peer-to-peer communication protocol like bitTorrent, but it's not exactly the same.
+In this project we implement one peer-to-peer communication protocol like Gnutella, but it's not exactly the same.
 
 # How it works
 We use the Ping concept to implement this project. Ping operates by sending Internet Control Message Protocol (ICMP) echo request packets to the target host and waiting for an ICMP echo reply. Here is the IP datagram of a ping packet:  
@@ -48,7 +48,7 @@ Here maybe you have some problem with `xterm`. Here are some tips to get rid of 
 
 Then when you run a terminal in each of the hosts, you need to run the below command in each host:
 ```
-python bitTorrent.py
+python Gnutella.py
 ```
 Finally, everything had been set up. You can now use the commands for sharing your file between hosts. Enjoy :)
 
