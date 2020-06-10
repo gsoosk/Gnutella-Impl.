@@ -7,6 +7,12 @@ import time
 import socket
 import sys
 import threading 
+import socket
+import select
+
+
+#               0               1                              2          3       4           5            
+#Protocol : returnOrNot? ~ if return -> ip else -> data ~ numberOfData ~ size ~ toDelete ~ fileName 
 
 numberOfClient = 5
 protocolTag = '~'
@@ -27,12 +33,9 @@ def splitFile(fileName):
 			result.append(byte)
 		print "File uploaded succesfully."
 		f.close()
-<<<<<<< HEAD
-=======
 	except :
 		print "Can not upload."
 	result = result[:-1]
->>>>>>> ed3514b... Downloaing multiple file and uploading multiple file added
 	return result
 
 def send():
@@ -56,56 +59,6 @@ def findRandomIp():
 			ipFounded = True
 	return newIpToJoin
 
-<<<<<<< HEAD
-def senderFunction():
-
-
-def main(isSender = False):
-	isSender = (sys.argv[1].lower() == 'true')
-	
-	if(isSender):
-
-		#fileName = raw_input("file name: ")
-		
-		#split file
-		fileData = splitFile(fileName = 'test.txt')
-		
-		#send file
-		i = 0
-		while i < len(fileData):
-			data = ''
-			for j in range(i , i + 7):
-				if j < len(fileData):
-					data += fileData[j]
-			print (data) 
-			payload = '0' + protocolTag + data + protocolTag + '%s'%(i/8)
-			Ping(findRandomIp() , findRandomIp() , payload = payload).do_send()
-			i = i + 8
-		#return home
-
-		#receive file
-
-	else:
-		receiverFunction()
-        
-def receiverFunction():
-	p = Ping('0.0.0.0' , '0.0.0.0', payload="test")
-	returnHome = False
-	returnIp = 0
-	while(True):
-		packet_size , src_ip, dest_ip, ip_header, icmp_header , payLoad = p.do_receive()
-		if not packet_size == 0:
-			payloadData = payLoad.split('~')
-			if(payloadData[0] == 'return'): #If msg was return to home
-				returnIp = payloadData[1]
-				returnHome = True
-			if(icmp_header['type'] == ping.ICMP_ECHOREPLY):
-				print "PayLoad is %s"%(payLoad)
-				if(payloadData[5] == '1'):
-					print "***********Deleting"
-				elif(returnHome and not payloadData[0] == 'return'):
-					payloadData[5] = '1'
-=======
 def getRandomSourceAndDestination():
         sourceIp = findRandomIp()
         destinationIp = findRandomIp()
@@ -177,32 +130,12 @@ def receiverFunction(p):
 			#If we should send this chunk to Home 
 			elif((not payloadData[0] == 'return') and payloadData[5] in returnIps):
 					payloadData[4] = '1'
->>>>>>> 672afad... debug receiving function
 					payLoad = '~'.join(payloadData)
 					print "***********Sending to Home %s"%(returnIps[payloadData[5]])
 					ourIp = commands.getoutput('/sbin/ifconfig').split('\n')[1][20:28]
 					p.set_new_config(ourIp, returnIps[payloadData[5]], payLoad)
 					p.do_send()
-<<<<<<< HEAD
-<<<<<<< HEAD
-				else : 
-					sourceIp, destinationIp = getRandomSourceAndIp()
-					print "random src is %s and dst is %s"%(sourceIp, destinationIp)
-					p.set_new_config(sourceIp, destinationIp, payLoad)
-					# time.sleep(1)
-					p.do_send()
-        
-
-def getRandomSourceAndIp():
-        sourceIp = findRandomIp()
-        destinationIp = findRandomIp()
-        while destinationIp == sourceIp :
-                destinationIp = findRandomIp()
-        return sourceIp, destinationIp
-=======
-=======
 			#If we should spin the chunk
->>>>>>> ed3514b... Downloaing multiple file and uploading multiple file added
 			else : 
 				sourceIp, destinationIp = getRandomSourceAndDestination()
 				p.set_new_config(sourceIp, destinationIp, payLoad)
@@ -255,7 +188,6 @@ def main():
 				else :
 					print "Commmand not found! try again."
 			buffer = []
->>>>>>> 672afad... debug receiving function
 	
 if __name__ == "__main__":
-    main(isSender=False)
+    main()
